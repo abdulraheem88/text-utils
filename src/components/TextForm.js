@@ -3,21 +3,27 @@ import React, {useState} from 'react'
 export default function TextForm(props) {
 
     const handleUpClick = ()=>{
-       // console.log("Upper case was clicked" + text);
+       
         let newText = text.toUpperCase();
         setText(newText);
         props.showAlert("Converted to uppercase!","success")
     }
 
     const handleLoClick = ()=>{
-        // console.log("Upper case was clicked" + text);
+        
          let newText = text.toLowerCase();
          setText(newText);
          props.showAlert("Converted to lowercase!","success")
      }
 
+     const handleExtraSpaces = () => {
+      let newText = text.split(/\s+/).join(" ");
+      setText(newText);
+      props.showAlert("Extra spaces removed!","success")
+     }
+
      const handleClearClick = ()=>{
-        // console.log("Upper case was clicked" + text);
+       
          let newText = "";
          setText(newText);
          props.showAlert("Cleared all text!","success")
@@ -38,7 +44,7 @@ export default function TextForm(props) {
   
 
     const handleOnChange = (event)=>{
-       // console.log("On changed");
+       
         setText(event.target.value)
         
     }
@@ -55,6 +61,7 @@ export default function TextForm(props) {
   </div>
 <button disabled={text.length===0} className="btn btn-primary mx-1 my-2" onClick={handleUpClick}>Convert to Uppercase</button>
 <button disabled={text.length===0} className="btn btn-dark mx-1 my-2" onClick={handleLoClick}>Convert to Lowercase</button>
+<button disabled={text.length===0} className="btn btn-info mx-1 my-2" onClick={handleExtraSpaces}>Remove Extra Spaces</button>
 <button disabled={text.length===0} className="btn btn-danger mx-1 my-2" onClick={handleClearClick}>Clear all Text</button>
 <button disabled={text.length===0} className="btn btn-success mx-1 my-2" onClick={speakClick}>Start Speaking Text</button>
 <button disabled={text.length===0} className="btn btn-warning mx-1 my-2" onClick={stopSpeak}>Stop Speaking Text</button>
@@ -62,7 +69,7 @@ export default function TextForm(props) {
     </div>
     <div className="container my-3" style={{color:props.mode==='dark'?'white':'#042743'}}>
         <h3>Your text summary</h3>
-        <p>{text.split(" ").filter((element)=>{return element.length!==0}).length} words and {text.length} characters</p>
+        <p>{text.split(/\s+/).filter((element)=>{return element.length!==0}).length} words and {text.length} characters</p>
         <p>{0.008 * text.split(" ").filter((element)=>{return element.length!==0}).length} minutes to read</p>
         <h3>Preview</h3>
         <p>{text.length>0?text:"Nothing to preview!"}</p>
